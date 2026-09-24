@@ -1,0 +1,111 @@
+/* ------------------------------------------------------------------
+   tokens.css — palette, typographie, ombres, rayons
+   Toutes les couleurs sont définies ici (mode clair + mode sombre).
+------------------------------------------------------------------ */
+
+:root {
+  /* Surfaces */
+  --bg: #F3EFE4;
+  --bg-veil: #EDE7D8;
+  --surface: #FFFFFF;
+  --surface-2: #FBF9F3;
+  --surface-3: #F4F1E7;
+  --sheet: #FFFDF8;
+
+  /* Texte */
+  --ink: #1D2128;
+  --ink-2: #4A4740;
+  --muted: #7A7264;
+  --faint: #B6AE9C;
+
+  /* Traits */
+  --line: #E4DECC;
+  --line-soft: #EFEADC;
+
+  /* Accents */
+  --burgundy: #8C2F3B;
+  --burgundy-solid: #8C2F3B;
+  --burgundy-solid-hi: #A03846;
+  --burgundy-hi: #A03846;
+  --burgundy-soft: #F6E9EA;
+  --gold: #B8893B;
+  --green: #3F7D5A;
+
+  /* Ombres */
+  --shadow-sm: 0 1px 2px rgba(29, 33, 40, .05);
+  --shadow: 0 6px 20px -8px rgba(29, 33, 40, .18);
+  --shadow-lg: 0 24px 60px -24px rgba(29, 33, 40, .28);
+  --ring: 0 0 0 3px rgba(140, 47, 59, .16);
+
+  /* Rayons */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 26px;
+
+  /* Divers */
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --maxw: 1180px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14161A;
+    --bg-veil: #191C21;
+    --surface: #1C1F25;
+    --surface-2: #22262D;
+    --surface-3: #272C34;
+    --sheet: #1F232A;
+
+    --ink: #ECE8DE;
+    --ink-2: #C9C3B6;
+    --muted: #97907F;
+    --faint: #6A6457;
+
+    --line: #2E333B;
+    --line-soft: #262B32;
+
+    --burgundy: #C4596A;
+    --burgundy-solid: #8E3341;
+    --burgundy-solid-hi: #A23C4B;
+    --burgundy-hi: #D46C7C;
+    --burgundy-soft: #2A1E22;
+    --gold: #D4A65A;
+    --green: #5FA47D;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow: 0 6px 20px -8px rgba(0, 0, 0, .6);
+    --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, .8);
+    --ring: 0 0 0 3px rgba(196, 89, 106, .22);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #14161A;
+  --bg-veil: #191C21;
+  --surface: #1C1F25;
+  --surface-2: #22262D;
+  --surface-3: #272C34;
+  --sheet: #1F232A;
+
+  --ink: #ECE8DE;
+  --ink-2: #C9C3B6;
+  --muted: #97907F;
+  --faint: #6A6457;
+
+  --line: #2E333B;
+  --line-soft: #262B32;
+
+  --burgundy: #C4596A;
+  --burgundy-solid: #8E3341;
+  --burgundy-solid-hi: #A23C4B;
+  --burgundy-hi: #D46C7C;
+  --burgundy-soft: #2A1E22;
+  --gold: #D4A65A;
+  --green: #5FA47D;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow: 0 6px 20px -8px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, .8);
+  --ring: 0 0 0 3px rgba(196, 89, 106, .22);
+}

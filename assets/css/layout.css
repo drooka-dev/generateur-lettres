@@ -1,0 +1,97 @@
+/* ------------------------------------------------------------------
+   layout.css — en-tête, grille principale, colonnes, pied de page
+------------------------------------------------------------------ */
+
+.shell {
+  position: relative;
+  z-index: 1;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- En-tête ---------- */
+
+.site-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 40px 0 26px;
+}
+
+.site-header__text { max-width: 58ch; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px 5px 9px;
+  border-radius: 999px;
+  background: var(--burgundy-soft);
+  border: 1px solid color-mix(in srgb, var(--burgundy) 18%, transparent);
+  color: var(--burgundy);
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.site-header h1 {
+  margin: 14px 0 10px;
+  font-size: clamp(1.9rem, 1.3rem + 2vw, 2.7rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.08;
+}
+
+.site-header h1 em {
+  font-style: normal;
+  color: var(--burgundy);
+}
+
+.site-header p {
+  color: var(--muted);
+  font-size: .96rem;
+  line-height: 1.6;
+}
+
+/* ---------- Grille principale ---------- */
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  padding-bottom: 72px;
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+    gap: 28px;
+  }
+  .workspace__preview {
+    position: sticky;
+    top: 24px;
+  }
+}
+
+.workspace__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.workspace__preview { min-width: 0; }
+
+/* ---------- Pied de page ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--line-soft);
+  padding: 22px 0 46px;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.65;
+  max-width: 78ch;
+}
