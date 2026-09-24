@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Générateur de lettres types</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F2EA;
+    --surface:#FFFFFF;
+    --ink:#20242B;
+    --muted:#736C5E;
+    --line:#E3DDC9;
+    --burgundy:#8C2F3B;
+    --burgundy-ink:#fff;
+    --gold:#B8893B;
+    --shadow: 0 10px 30px rgba(32,36,43,.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0);
+    padding-bottom:env(safe-area-inset-bottom,0);
+  }
+  .serif{font-family:'Source Serif 4', Georgia, serif;}
+
+  header{padding:34px 20px 10px; max-width:720px; margin:0 auto;}
+  header .eyebrow{font-size:.8rem; font-weight:600; color:var(--burgundy);}
+  header h1{margin:8px 0 8px; font-size:1.85rem; font-weight:800; letter-spacing:-.01em; line-height:1.15;}
+  header p{margin:0; color:var(--muted); font-size:.94rem; line-height:1.55; max-width:52ch;}
+
+  main{max-width:720px; margin:0 auto; padding:18px 16px 60px; display:flex; flex-direction:column; gap:18px;}
+
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:22px;
+    padding:20px 20px 22px; box-shadow:var(--shadow);
+  }
+
+  .type-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  @media (min-width:520px){ .type-grid{grid-template-columns:repeat(3,1fr);} }
+  .type-btn{
+    border:1px solid var(--line); background:#FBFAF6; color:var(--ink);
+    padding:12px 10px; border-radius:14px; font-size:.82rem; font-weight:600; cursor:pointer;
+    text-align:left; line-height:1.3; transition:.15s;
+  }
+  .type-btn:hover{border-color:var(--burgundy);}
+  .type-btn.active{background:var(--burgundy); color:var(--burgundy-ink); border-color:var(--burgundy);}
+
+  .field-grid{display:grid; grid-template-columns:1fr; gap:14px; margin-top:18px;}
+  @media (min-width:560px){ .field-grid.two{grid-template-columns:1fr 1fr;} }
+  .field label{display:block; font-size:.78rem; font-weight:600; color:var(--muted); margin-bottom:7px;}
+  .field input, .field textarea, .field select{
+    width:100%; background:#FBFAF6; border:1px solid var(--line); color:var(--ink);
+    border-radius:11px; padding:11px 12px; font-family:'Plus Jakarta Sans',sans-serif; font-size:.92rem;
+    outline:none; transition:border-color .15s; resize:vertical;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{border-color:var(--burgundy);}
+  .field textarea{min-height:64px;}
+  .field.span2{grid-column:1 / -1;}
+  .hint-small{font-size:.76rem; color:var(--muted); margin-top:5px;}
+
+  .checkline{display:flex; align-items:flex-start; gap:9px; margin-top:14px; font-size:.85rem; color:var(--muted);}
+  .checkline input{accent-color:var(--burgundy); width:16px; height:16px; margin-top:2px;}
+
+  .preview-wrap{background:var(--surface); border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow); overflow:hidden;}
+  .preview-bar{display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--line); background:#FBFAF6;}
+  .preview-bar span{font-size:.8rem; font-weight:600; color:var(--muted);}
+  .actions{display:flex; gap:8px;}
+  .abtn{
+    border:none; border-radius:10px; padding:8px 13px; font-size:.8rem; font-weight:700; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; transition:.15s;
+  }
+  .abtn-primary{background:var(--burgundy); color:#fff;}
+  .abtn-ghost{background:#fff; color:var(--ink); border:1px solid var(--line);}
+  .abtn:active{transform:scale(.97);}
+  .copied{color:var(--gold); font-size:.78rem; font-weight:700; opacity:0; transition:opacity .2s;}
+  .copied.show{opacity:1;}
+
+  #letterPreview{
+    padding:34px 30px 40px; white-space:pre-wrap; line-height:1.75; font-size:.98rem; min-height:320px;
+  }
+  #letterPreview .muted-fill{color:#B8B2A0; font-style:italic;}
+
+  footer{text-align:center; color:var(--muted); font-size:.74rem; padding:10px 24px 34px; max-width:720px; margin:0 auto; line-height:1.6;}
+
+  @media print{
+    header, .panel, .preview-bar, footer{display:none !important;}
+    body{background:#fff;}
+    .preview-wrap{border:none; box-shadow:none; border-radius:0;}
+    #letterPreview{padding:0; font-size:12pt;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">✉️ Lettres prêtes à l'emploi</div>
+  <h1>Générateur de lettres types</h1>
+  <p>Choisis un modèle, remplis les champs, obtiens une lettre complète et formatée — à copier, télécharger ou imprimer directement.</p>
+</header>
+
+<main>
+  <div class="panel">
+    <div class="field">
+      <label>Type de lettre</label>
+      <div class="type-grid" id="typeGrid"></div>
+    </div>
+
+    <div class="field-grid two">
+      <div class="field">
+        <label>Votre nom / raison sociale</label>
+        <input type="text" id="fName" placeholder="Jean Dupont">
+      </div>
+      <div class="field">
+        <label>Ville et date d'envoi</label>
+        <input type="text" id="fCityDate" placeholder="Paris, le [auto]">
+      </div>
+      <div class="field span2">
+        <label>Votre adresse</label>
+        <textarea id="fAddress" placeholder="12 rue des Lilas&#10;75000 Paris"></textarea>
+      </div>
+      <div class="field">
+        <label>Destinataire (nom / service)</label>
+        <input type="text" id="rName" placeholder="Service Client — Société X">
+      </div>
+      <div class="field">
+        <label>Référence (n° client, contrat, facture…)</label>
+        <input type="text" id="ref" placeholder="Optionnel">
+      </div>
+      <div class="field span2">
+        <label>Adresse du destinataire</label>
+        <textarea id="rAddress" placeholder="Service Client&#10;CS 12345&#10;69000 Lyon"></textarea>
+      </div>
+    </div>
+
+    <div id="typeFields" class="field-grid"></div>
+
+    <label class="checkline">
+      <input type="checkbox" id="recommande">
+      Préciser l'envoi en recommandé avec accusé de réception (mention en tête de lettre)
+    </label>
+  </div>
+
+  <div class="preview-wrap">
+    <div class="preview-bar">
+      <span>Aperçu de la lettre</span>
+      <div class="actions">
+        <span class="copied" id="copiedTag">Copié ✓</span>
+        <button class="abtn abtn-ghost" id="printBtn">🖨️ Imprimer / PDF</button>
+        <button class="abtn abtn-ghost" id="downloadBtn">⬇️ .txt</button>
+        <button class="abtn abtn-primary" id="copyBtn">Copier</button>
+      </div>
+    </div>
+    <div id="letterPreview" class="serif"></div>
+  </div>
+</main>
+
+<footer>
+  Ces modèles donnent une base rédactionnelle courante — relis-les avant envoi et adapte-les à ta situation ; ils ne remplacent pas un avis juridique pour les cas complexes ou litigieux.
+</footer>
+
+<script>
+const TYPES = [
+  {
+    key:'resiliation', label:'Résiliation de contrat',
+    objet:'Résiliation de contrat',
+    fields:[
+      {id:'t_service', label:'Nom du service / contrat', ph:'Abonnement internet Fibre'},
+      {id:'t_dateEffet', label:"Date de résiliation souhaitée", ph:'15/11/2026'},
+      {id:'t_motif', label:'Motif (optionnel)', ph:'Déménagement, changement d\'offre…', area:true},
+    ],
+    body: v => `Je vous informe par la présente courrier de ma décision de résilier le contrat "${v.t_service||'[service]'}"${v.ref?` (référence : ${v.ref})`:''} me liant à votre société, à compter du ${v.t_dateEffet||'[date souhaitée]'}.${v.t_motif?`\n\nCette résiliation fait suite à : ${v.t_motif}.`:''}
+
+Je vous remercie de bien vouloir prendre en compte cette demande dans les meilleurs délais, de m'en confirmer la bonne réception ainsi que la date effective de résiliation, et de procéder, le cas échéant, au remboursement des sommes indûment perçues après cette date.`
+  },
+  {
+    key:'demeure', label:'Mise en demeure (impayé)',
+    objet:'Mise en demeure de payer',
+    fields:[
+      {id:'t_montant', label:'Montant dû (€)', ph:'450'},
+      {id:'t_echeance', label:"Date d'échéance dépassée", ph:'01/09/2026'},
+      {id:'t_delai', label:'Délai accordé (jours)', ph:'8'},
+    ],
+    body: v => `Malgré mes/nos précédentes relances, je constate que la somme de ${v.t_montant||'[montant]'} €${v.ref?` correspondant à ${v.ref}`:''} demeure impayée à ce jour, l'échéance étant fixée au ${v.t_echeance||'[date d\'échéance]'}.
+
+Par la présente, je vous mets en demeure de procéder au règlement intégral de cette somme dans un délai de ${v.t_delai||'8'} jours à compter de la réception de ce courrier.
+
+À défaut de règlement dans ce délai, je me verrai contraint(e) d'engager toute action utile au recouvrement de cette créance, y compris par voie judiciaire, sans autre avis préalable.`
+  },
+  {
+    key:'delai', label:'Demande de délai de paiement',
+    objet:'Demande de délai de paiement',
+    fields:[
+      {id:'t_montant', label:'Montant concerné (€)', ph:'320'},
+      {id:'t_raison', label:'Raison de la demande', ph:'Difficulté financière passagère', area:true},
+      {id:'t_proposition', label:'Échéance ou échelonnement proposé', ph:'Règlement en 3 fois, dernier versement le 15/12/2026'},
+    ],
+    body: v => `Je fais suite à votre facture / courrier concernant la somme de ${v.t_montant||'[montant]'} €${v.ref?` (référence : ${v.ref})`:''}.
+
+En raison de ${v.t_raison||'[raison]'}, je me trouve dans l'impossibilité de régler cette somme dans les délais impartis.
+
+Je vous sollicite donc un délai de paiement supplémentaire et vous propose le règlement suivant : ${v.t_proposition||'[proposition]'}.
+
+Je vous remercie de bien vouloir étudier ma demande avec bienveillance et reste à votre disposition pour tout échange à ce sujet.`
+  },
+  {
+    key:'contestation', label:'Contestation de facture',
+    objet:'Contestation de facture',
+    fields:[
+      {id:'t_numFacture', label:'Numéro de facture', ph:'FAC-2026-00456'},
+      {id:'t_montant', label:'Montant contesté (€)', ph:'89,90'},
+      {id:'t_motif', label:'Motif de la contestation', ph:'Service non fourni, erreur de tarif…', area:true},
+    ],
+    body: v => `Je conteste par la présente le montant de la facture n° ${v.t_numFacture||'[numéro]'} d'un montant de ${v.t_montant||'[montant]'} €.
+
+Motif de la contestation : ${v.t_motif||'[motif]'}.
+
+Je vous demande de bien vouloir procéder à la révision de cette facture et, le cas échéant, à son annulation ou à sa rectification, dans les meilleurs délais. Dans l'attente, je me réserve le droit de suspendre le règlement du montant contesté.`
+  },
+  {
+    key:'remboursement', label:'Demande de remboursement',
+    objet:'Demande de remboursement',
+    fields:[
+      {id:'t_objet', label:'Produit / service concerné', ph:'Commande n°45123 non livrée'},
+      {id:'t_montant', label:'Montant à rembourser (€)', ph:'129,00'},
+      {id:'t_motif', label:'Motif', ph:'Produit défectueux, commande annulée…', area:true},
+    ],
+    body: v => `Je vous sollicite par la présente le remboursement de la somme de ${v.t_montant||'[montant]'} € correspondant à : ${v.t_objet||'[objet]'}${v.ref?` (référence : ${v.ref})`:''}.
+
+Motif de la demande : ${v.t_motif||'[motif]'}.
+
+Je vous remercie de bien vouloir procéder à ce remboursement dans les meilleurs délais et de m'en confirmer la bonne exécution.`
+  },
+];
+
+let currentType = TYPES[0].key;
+
+const typeGrid = document.getElementById('typeGrid');
+TYPES.forEach(t=>{
+  const b = document.createElement('button');
+  b.className = 'type-btn' + (t.key===currentType?' active':'');
+  b.textContent = t.label;
+  b.dataset.key = t.key;
+  b.addEventListener('click', ()=>{
+    currentType = t.key;
+    [...typeGrid.children].forEach(c=>c.classList.toggle('active', c.dataset.key===t.key));
+    renderTypeFields();
+    update();
+  });
+  typeGrid.appendChild(b);
+});
+
+const typeFieldsEl = document.getElementById('typeFields');
+function renderTypeFields(){
+  const t = TYPES.find(x=>x.key===currentType);
+  typeFieldsEl.innerHTML = '';
+  typeFieldsEl.className = 'field-grid ' + (t.fields.length>2?'two':'');
+  t.fields.forEach(f=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'field' + (f.area?' span2':'');
+    wrap.innerHTML = `<label>${f.label}</label>${f.area ? `<textarea id="${f.id}" placeholder="${f.ph||''}"></textarea>` : `<input type="text" id="${f.id}" placeholder="${f.ph||''}">`}`;
+    typeFieldsEl.appendChild(wrap);
+  });
+  typeFieldsEl.querySelectorAll('input,textarea').forEach(el=> el.addEventListener('input', update));
+}
+
+const ids = ['fName','fCityDate','fAddress','rName','rAddress','ref'];
+ids.forEach(id=> document.getElementById(id).addEventListener('input', update));
+document.getElementById('recommande').addEventListener('change', update);
+
+function todayFr(){
+  const d = new Date();
+  return d.toLocaleDateString('fr-FR', {day:'2-digit', month:'long', year:'numeric'});
+}
+const cityDateInput = document.getElementById('fCityDate');
+cityDateInput.value = `Ville, le ${todayFr()}`;
+
+function val(id){ return (document.getElementById(id)||{}).value?.trim() || ''; }
+function fill(text, placeholder){ return text ? text : `[${placeholder}]`; }
+
+function update(){
+  const t = TYPES.find(x=>x.key===currentType);
+  const v = {};
+  t.fields.forEach(f=> v[f.id] = val(f.id));
+  v.ref = val('ref');
+
+  const name = val('fName');
+  const address = val('fAddress');
+  const cityDate = val('fCityDate') || `Ville, le ${todayFr()}`;
+  const rName = val('rName');
+  const rAddress = val('rAddress');
+  const recommande = document.getElementById('recommande').checked;
+
+  const bodyText = t.body(v);
+
+  const letter =
+`${fill(name,'Votre nom')}
+${fill(address,'Votre adresse')}
+
+${fill(rName,'Nom du destinataire')}
+${fill(rAddress,'Adresse du destinataire')}
+
+${cityDate}
+
+Objet : ${t.objet}${v.ref?` — réf. ${v.ref}`:''}
+${recommande ? 'Lettre recommandée avec accusé de réception\n' : ''}
+Madame, Monsieur,
+
+${bodyText}
+
+Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+${fill(name,'Votre nom')}`;
+
+  document.getElementById('letterPreview').textContent = letter;
+}
+
+renderTypeFields();
+update();
+
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  const text = document.getElementById('letterPreview').textContent;
+  try{
+    await navigator.clipboard.writeText(text);
+    const tag = document.getElementById('copiedTag');
+    tag.classList.add('show');
+    setTimeout(()=>tag.classList.remove('show'), 1600);
+  }catch(e){
+    alert("Impossible de copier automatiquement — sélectionne le texte manuellement.");
+  }
+});
+
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+  const text = document.getElementById('letterPreview').textContent;
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'lettre.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+document.getElementById('printBtn').addEventListener('click', ()=> window.print());
+</script>
+</body>
+</html>
